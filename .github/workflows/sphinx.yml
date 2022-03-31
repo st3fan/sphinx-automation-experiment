@@ -13,14 +13,14 @@ jobs:
       - name: "Checkout Main Branch"
         uses: actions/checkout@v2
         with:
-          persist-credentials: false # Do not persist the token during execution of this job.
+          persist-credentials: false
           path: main
           ref: main
 
       - name: "Checkout GitHub Pages Branch"
         uses: actions/checkout@v2
         with:
-          persist-credentials: false # Do not persist the token during execution of this job.
+          persist-credentials: false
           path: gh-pages
           ref: gh-pages
 
@@ -28,18 +28,12 @@ jobs:
         uses: actions/setup-python@v3
 
       - name: "Install Sphinx & Theme"
-        run: pip install sphinx-rtd-theme==1.0.0
+        run: pip install sphinx=4.5.0 sphinx-rtd-theme==1.0.0
 
       - name: "Run Sphinx"
-        run: |
-          sphinx-build -b html main/docs gh-pages -E -d $GITHUB_WORKSPACE/.doctree
+        run: sphinx-build -b html main/docs gh-pages -E -d $GITHUB_WORKSPACE/.doctree
 
-      # - name: "Check for changes"
-      #   id: git-check
-      #   run: echo ::set-output name=modified::$(if [ -n "$(cd gh-pages && git status --porcelain)" ]; then echo "true"; else echo "false"; fi)
-
-      - name: "Commit & Push Changes"
-        # if: steps.git-check.outputs.modified == 'true'
+      - name: "Commit & Push Changes (If Any)"
         run: |
           cd gh-pages
           git add -A
