@@ -41,6 +41,8 @@ jobs:
         run: |
           cd gh-pages
           git add -A docs/
+          git config --global user.email "open-source@aiven.io # TODO Put original committer here?
+          git config --global user.name "Aiven Open Source"
           git commit -m "From $GITHUB_REF $(echo ${GITHUB_SHA} | cut -c 1-8)"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git push
