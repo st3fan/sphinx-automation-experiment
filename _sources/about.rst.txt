@@ -4,6 +4,7 @@ About PGHoard
 Features
 --------
 
+* This should be good
 * Foo
 * TEST TEST TEST
 * Automatic periodic basebackups
