@@ -36,7 +36,7 @@ jobs:
           ref: gh-pages
 
       # Commit changes in docs to the pages branch
-      - name "Commit changes"
+      - name: "Commit changes"
         if: steps.git-check.outputs.modified == 'true'
         run: |
           git add -A docs/
