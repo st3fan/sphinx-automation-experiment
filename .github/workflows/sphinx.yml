@@ -18,7 +18,6 @@ jobs:
           ref: main
 
       - name: "Checkout GitHub Pages Branch"
-        if: steps.git-check.outputs.modified == 'true'
         uses: actions/checkout@v2
         with:
           persist-credentials: false # Do not persist the token during execution of this job.
