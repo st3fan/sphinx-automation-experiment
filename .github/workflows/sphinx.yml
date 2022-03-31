@@ -32,7 +32,7 @@ jobs:
 
       - name: "Run Sphinx"
         run: |
-          sphinx-build -b html main/docs gh-pages/docs -E -d $GITHUB_WORKSPACE/.doctree
+          sphinx-build -b html main/docs gh-pages -E -d $GITHUB_WORKSPACE/.doctree
 
       - name: "Check for changes"
         id: git-check
@@ -42,7 +42,7 @@ jobs:
       #   if: steps.git-check.outputs.modified == 'true'
       #   run: rsync -av main/docs/ gh-pages/docs
 
-      - name: "Commit changes"
+      - name: "Commit & Push Changes"
         if: steps.git-check.outputs.modified == 'true'
         run: |
           cd gh-pages
