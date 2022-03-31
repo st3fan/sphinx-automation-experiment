@@ -4,6 +4,7 @@ About PGHoard
 Features
 --------
 
+* Foo
 * TEST TEST TEST
 * Automatic periodic basebackups
 * Automatic transaction log (WAL/xlog) backups (using either ``pg_receivewal``
