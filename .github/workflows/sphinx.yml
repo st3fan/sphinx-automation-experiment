@@ -32,9 +32,9 @@ jobs:
           path: gh-pages
           ref: gh-pages
 
-      -name: "Sync changed documentation"
-       if: steps.git-check.outputs.modified == 'true'
-       run: rsync main/docs/ gh-pages/docs
+      - name: "Sync changed documentation"
+        if: steps.git-check.outputs.modified == 'true'
+        run: rsync main/docs/ gh-pages/docs
 
       - name: "Commit changes"
         if: steps.git-check.outputs.modified == 'true'
