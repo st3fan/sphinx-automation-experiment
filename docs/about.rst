@@ -4,6 +4,7 @@ About PGHoard
 Features
 --------
 
+* TEST TEST TEST
 * Automatic periodic basebackups
 * Automatic transaction log (WAL/xlog) backups (using either ``pg_receivewal``
   (formerly ``pg_receivexlog``), ``archive_command`` or experimental PG native
