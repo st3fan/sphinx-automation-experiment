@@ -17,20 +17,6 @@ jobs:
           path: main
           ref: main
 
-      - name: "Setup Python & Install Spinx"
-        uses: actions/setup-python@v3
-
-      - name: "Install Sphinx & Theme"
-        run: pip install sphinx-rtd-theme==1.0.0
-
-      - name: "Run Sphinx"
-        run: |
-          sphinx-build -b html main/docs main/docs -E -d $GITHUB_WORKSPACE/.doctree
-
-      - name: "Check for Documentation Changes"
-        id: git-check
-        run: echo ::set-output name=modified::$(if [ -n "$(cd main && git status --porcelain docs/)" ]; then echo "true"; else echo "false"; fi)
-
       - name: "Checkout GitHub Pages Branch"
         if: steps.git-check.outputs.modified == 'true'
         uses: actions/checkout@v2
@@ -39,9 +25,23 @@ jobs:
           path: gh-pages
           ref: gh-pages
 
-      - name: "Sync changed documentation"
-        if: steps.git-check.outputs.modified == 'true'
-        run: rsync -av main/docs/ gh-pages/docs
+      - name: "Setup Python & Install Spinx"
+        uses: actions/setup-python@v3
+
+      - name: "Install Sphinx & Theme"
+        run: pip install sphinx-rtd-theme==1.0.0
+
+      - name: "Run Sphinx"
+        run: |
+          sphinx-build -b html main/docs gh-pages/docs -E -d $GITHUB_WORKSPACE/.doctree
+
+      - name: "Check for changes"
+        id: git-check
+        run: echo ::set-output name=modified::$(if [ -n "$(cd gh-pages && git status --porcelain docs/)" ]; then echo "true"; else echo "false"; fi)
+
+      # - name: "Sync changed documentation"
+      #   if: steps.git-check.outputs.modified == 'true'
+      #   run: rsync -av main/docs/ gh-pages/docs
 
       - name: "Commit changes"
         if: steps.git-check.outputs.modified == 'true'
