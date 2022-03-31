@@ -25,7 +25,7 @@ jobs:
 
       - name: "Run Sphinx"
         run: |
-          sphinx-build -b html main/docs gh-pages/docs -E -d $GITHUB_WORKSPACE/.doctree
+          sphinx-build -b html main/docs main/docs -E -d $GITHUB_WORKSPACE/.doctree
 
       - name: "Check for Documentation Changes"
         id: git-check
