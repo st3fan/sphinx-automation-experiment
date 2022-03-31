@@ -32,21 +32,17 @@ jobs:
 
       - name: "Run Sphinx"
         run: |
-          sphinx-build -b html main/docs gh-pages/docs -E -d $GITHUB_WORKSPACE/.doctree
+          sphinx-build -b html main/docs gh-pages -E -d $GITHUB_WORKSPACE/.doctree
 
-      - name: "Check for changes"
-        id: git-check
-        run: echo ::set-output name=modified::$(if [ -n "$(cd gh-pages && git status --porcelain docs/)" ]; then echo "true"; else echo "false"; fi)
-
-      # - name: "Sync changed documentation"
-      #   if: steps.git-check.outputs.modified == 'true'
-      #   run: rsync -av main/docs/ gh-pages/docs
+      # - name: "Check for changes"
+      #   id: git-check
+      #   run: echo ::set-output name=modified::$(if [ -n "$(cd gh-pages && git status --porcelain)" ]; then echo "true"; else echo "false"; fi)
 
       - name: "Commit & Push Changes"
-        if: steps.git-check.outputs.modified == 'true'
+        # if: steps.git-check.outputs.modified == 'true'
         run: |
           cd gh-pages
-          git add -A docs/
+          git add -A
           git config --global user.email "$(git show --format=%ae -s)"
           git config --global user.name "$(git show --format=%an -s)"
           git commit -m "From $GITHUB_REF $(echo ${GITHUB_SHA} | cut -c 1-8)"
