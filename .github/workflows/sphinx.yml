@@ -34,7 +34,7 @@ jobs:
 
       - name: "Sync changed documentation"
         if: steps.git-check.outputs.modified == 'true'
-        run: rsync main/docs/ gh-pages/docs
+        run: rsync -av main/docs/ gh-pages/docs
 
       - name: "Commit changes"
         if: steps.git-check.outputs.modified == 'true'
