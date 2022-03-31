@@ -1,9 +1,12 @@
 About PGHoard
 =============
 
+Lalala this is good stuff.
+
 Features
 --------
 
+* Foobar
 * This should be good
 * Foo
 * TEST TEST TEST
