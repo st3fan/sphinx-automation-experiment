@@ -10,24 +10,21 @@ jobs:
     name: Sphinx Pages
     runs-on: ubuntu-latest
     steps:
-      # Check out the main branch
-      - name: Checkout Main Branch
+      - name: "Checkout Main Branch"
         uses: actions/checkout@v2
         with:
           persist-credentials: false # Do not persist the token during execution of this job.
           path: main
           ref: main
 
-      # TODO Actually Run Sphinx
-      - name: Run Sphinx
+      - name: "Run Sphinx"
         run: echo "TODO" > main/docs/index.html
 
-      - name: Check for Documentation Changes
+      - name: "Check for Documentation Changes"
         id: git-check
         run: echo ::set-output name=modified::$(if [ -n "$(git status --porcelain docs/)" ]; then echo "true"; else echo "false"; fi)
 
-      # Check out the GitHub Pages branch
-      - name: Checkout GitHub Pages Branch
+      - name: "Checkout GitHub Pages Branch"
         if: steps.git-check.outputs.modified == 'true'
         uses: actions/checkout@v2
         with:
@@ -35,12 +32,10 @@ jobs:
           path: gh-pages
           ref: gh-pages
 
-      # Copy changed documentation
       -name: "Sync changed documentation"
        if: steps.git-check.outputs.modified == 'true'
        run: rsync main/docs/ gh-pages/docs
 
-      # Commit changes in docs to the pages branch
       - name: "Commit changes"
         if: steps.git-check.outputs.modified == 'true'
         run: |
