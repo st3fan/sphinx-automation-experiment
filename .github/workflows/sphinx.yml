@@ -17,8 +17,15 @@ jobs:
           path: main
           ref: main
 
+      - name: "Setup Python & Install Spinx"
+        uses: actions/setup-python@v3
+
+      - name: "Install Sphinx & Theme"
+        run: pip install sphinx-rtd-theme==1.0.0
+
       - name: "Run Sphinx"
-        run: echo "TODO" > main/docs/index.html
+        run: |
+          sphinx-build -b html main/docs gh-pages -E -d $GITHUB_WORKSPACE/.doctree
 
       - name: "Check for Documentation Changes"
         id: git-check
@@ -41,8 +48,8 @@ jobs:
         run: |
           cd gh-pages
           git add -A docs/
-          git config --global user.email "open-source@aiven.io" # TODO Put original committer here?
-          git config --global user.name "Aiven Open Source"
+          git config --global user.email "$(git show --format=%ae -s)"
+          git config --global user.name "$(git show --format=%an -s)"
           git commit -m "From $GITHUB_REF $(echo ${GITHUB_SHA} | cut -c 1-8)"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git push
