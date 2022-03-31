@@ -20,13 +20,13 @@ jobs:
 
       # TODO Actually Run Sphinx
       - name: Run Sphinx
-        run: echo "TODO" > docs/index.html
+        run: echo "TODO" > main/docs/index.html
 
       - name: Check for Documentation Changes
         id: git-check
         run: echo ::set-output name=modified::$(if [ -n "$(git status --porcelain docs/)" ]; then echo "true"; else echo "false"; fi)
 
-      # Check out the main branch
+      # Check out the GitHub Pages branch
       - name: Checkout GitHub Pages Branch
         if: steps.git-check.outputs.modified == 'true'
         uses: actions/checkout@v2
@@ -35,10 +35,16 @@ jobs:
           path: gh-pages
           ref: gh-pages
 
+      # Copy changed documentation
+      -name: "Sync changed documentation"
+       if: steps.git-check.outputs.modified == 'true'
+       run: rsync main/docs/ gh-pages/docs
+
       # Commit changes in docs to the pages branch
       - name: "Commit changes"
         if: steps.git-check.outputs.modified == 'true'
         run: |
+          cd gh-pages
           git add -A docs/
           git commit -m "From $GITHUB_REF $(echo ${GITHUB_SHA} | cut -c 1-8)"
           git push
